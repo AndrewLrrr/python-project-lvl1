@@ -7,3 +7,4 @@ install:
 - poetry install
 script:
 - make lint
+- make test
