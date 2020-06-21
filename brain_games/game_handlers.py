@@ -59,13 +59,13 @@ class CalcGame(GameHandler):
         return left + right
 
     @classmethod
-    def _ded(cls, left, right):
+    def _sub(cls, left, right):
         return left - right
 
     def _calc_str(self, val):
         op_map = {
             '+': '_add',
-            '-': '_ded',
+            '-': '_sub',
             '*': '_mul',
         }
         left, op, right = val.split()
