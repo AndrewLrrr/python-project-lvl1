@@ -51,16 +51,16 @@ class CalcGame(GameHandler):
     allowed_operations = ('*', '+', '-')
 
     @classmethod
-    def _mul(cls, l, r):
-        return l * r
+    def _mul(cls, left, right):
+        return left * right
 
     @classmethod
-    def _add(cls, l, r):
-        return l + r
+    def _add(cls, left, right):
+        return left + right
 
     @classmethod
-    def _ded(cls, l, r):
-        return l - r
+    def _ded(cls, left, right):
+        return left - right
 
     def _calc_str(self, val):
         op_map = {

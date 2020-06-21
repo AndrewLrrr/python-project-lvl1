@@ -67,7 +67,7 @@ class CliTestCase(TestCase):
         prompt.return_value = '50'
         game = CalcGame(3)
         handler = game_handler(game, 'User')
-        self.assertEqual(f'Question: 10 + 5', next(handler))
+        self.assertEqual('Question: 10 + 5', next(handler))
         self.assertEqual('Let\'s try again, User!', next(handler))
 
 
