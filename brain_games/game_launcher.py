@@ -1,23 +1,24 @@
-from brain_games.cli import ask_name, welcome_user, game_handler
-from brain_games.game_handlers import AnswerKeyError, AnswerValueError
-
-GREETING = 'Welcome to the Brain Games!'
-QUESTIONS_COUNT = 3
+import prompt
 
 
-def game_launcher(game):
-    print(GREETING)
-    if game:
-        print(game.greeting)
+ROUNDS_COUNT = 3
+
+
+def game_launcher(game, rounds_count=ROUNDS_COUNT):
+    print('Welcome to the Brain Games!')
+    print(game.DESCRIPTION)
     print()
-    name = ask_name()
-    print(welcome_user(name))
-    if game:
-        print()
-        try:
-            for q in game_handler(game, name):
-                print(q)
-        except AnswerKeyError:
-            print('Error! You can only use `yes` or `no` for your answers')
-        except AnswerValueError:
-            print('Error! You can use only integers for your answers')
+    name = prompt.string('May I have your name? ')
+    print(f'Hello, {name}!')
+    print()
+    for _ in range(rounds_count):
+        question, answer = game.generate_round()
+        print(f'Question: {question}')
+        user_answer = prompt.string('Your answer: ')
+        if user_answer != answer:
+            print(f"'{user_answer}' is wrong answer ;(. "
+                  f"Correct answer was '{answer}'.")
+            print(f"Let's try again, {name}!")
+            return
+        print('Correct!')
+    print(f'Congratulations, {name}!')

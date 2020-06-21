@@ -1,9 +1,9 @@
-from brain_games.game_handlers import GCDGame
-from brain_games.game_launcher import game_launcher, QUESTIONS_COUNT
+from brain_games.game_handlers import gcd
+from brain_games.game_launcher import game_launcher
 
 
 def main():
-    game_launcher(GCDGame(QUESTIONS_COUNT))
+    game_launcher(gcd)
 
 
 if __name__ == '__main__':
