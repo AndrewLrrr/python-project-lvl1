@@ -25,3 +25,7 @@ poetry run brain-calc
 ```
 poetry run brain-gcd
 ```
+### Игра "Арифметическая прогрессия"
+```
+poetry run brain-progression
+```
