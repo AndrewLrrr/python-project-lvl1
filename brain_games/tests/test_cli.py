@@ -1,6 +1,11 @@
 from unittest import TestCase, main, mock
 from brain_games.cli import welcome_user, ask_name, game_handler
-from brain_games.game_handlers import EvenGame, CalcGame, GCDGame, ProgressionGame
+from brain_games.game_handlers import (
+    EvenGame,
+    CalcGame,
+    GCDGame,
+    ProgressionGame,
+)
 
 
 class CliTestCase(TestCase):

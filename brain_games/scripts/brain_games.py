@@ -1,5 +1,12 @@
 from brain_games.cli import welcome_user, ask_name, game_handler
-from brain_games.game_handlers import CalcGame, EvenGame, GCDGame, ProgressionGame, AnswerKeyError, AnswerValueError
+from brain_games.game_handlers import (
+    CalcGame,
+    EvenGame,
+    GCDGame,
+    ProgressionGame,
+    AnswerKeyError,
+    AnswerValueError,
+)
 
 GREETING = 'Welcome to the Brain Games!'
 QUESTIONS_COUNT = 3
