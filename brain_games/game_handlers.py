@@ -75,7 +75,30 @@ class CalcGame(GameHandler):
         left = str(random.randint(1, 10))
         right = str(random.randint(1, 10))
         op = random.choice(self.allowed_operations)
-        return ' '.join([left, op, right])
+        return f'{left} {op} {right}'
 
     def _handle_answer(self, question, answer):
         return self._calc_str(question) == int(answer)
+
+
+class GCDGame(GameHandler):
+    greeting = 'Find the greatest common divisor of given numbers.'
+
+    @classmethod
+    def _gen_question(cls):
+        x = random.randint(2, 100)
+        y = random.randint(2, 100)
+        return f'{x} {y}'
+
+    @classmethod
+    def _handle_answer(cls, question, answer):
+        x, y = [int(v) for v in question.split()]
+
+        def gcb(a, b):
+            if a == 0:
+                return b
+            if b == 0:
+                return a
+            return gcb(a % b, b) if a > b else gcb(a, b % a)
+
+        return gcb(x, y) == int(answer)

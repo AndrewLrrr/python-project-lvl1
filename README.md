@@ -21,3 +21,7 @@ poetry run brain-even
 ```
 poetry run brain-calc
 ```
+### Игра "НОД"
+```
+poetry run brain-gcd
+```

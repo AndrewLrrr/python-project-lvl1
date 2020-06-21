@@ -1,5 +1,5 @@
 from brain_games.cli import welcome_user, ask_name, game_handler
-from brain_games.game_handlers import CalcGame, EvenGame
+from brain_games.game_handlers import CalcGame, EvenGame, GCDGame
 
 GREETING = 'Welcome to the Brain Games!'
 QUESTIONS_COUNT = 3
@@ -33,6 +33,13 @@ def brain_even():
 def brain_calc():
     try:
         game_launcher(CalcGame(QUESTIONS_COUNT))
+    except ValueError:
+        print('Error! You can use only integers for your answers')
+
+
+def brain_gcd():
+    try:
+        game_launcher(GCDGame(QUESTIONS_COUNT))
     except ValueError:
         print('Error! You can use only integers for your answers')
 

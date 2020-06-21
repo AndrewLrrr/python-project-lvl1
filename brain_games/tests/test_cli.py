@@ -1,6 +1,6 @@
 from unittest import TestCase, main, mock
 from brain_games.cli import welcome_user, ask_name, game_handler
-from brain_games.game_handlers import EvenGame, CalcGame
+from brain_games.game_handlers import EvenGame, CalcGame, GCDGame
 
 
 class CliTestCase(TestCase):
@@ -20,6 +20,18 @@ class CliTestCase(TestCase):
         res = welcome_user('User')
         self.assertEqual('Hello, User!', res)
 
+    def assert_success(self, questions, game):
+        handler = game_handler(game, 'User')
+        for q in questions:
+            self.assertEqual(f'Question: {q}', next(handler))
+            self.assertEqual('Correct!', next(handler))
+        self.assertEqual('Congratulations, User!', next(handler))
+
+    def assert_fail(self, question, game):
+        handler = game_handler(game, 'User')
+        self.assertEqual(f'Question: {question}', next(handler))
+        self.assertEqual('Let\'s try again, User!', next(handler))
+
     @mock.patch('random.randint')
     @mock.patch('prompt.string')
     def test_even_game_success(self, prompt, randint):
@@ -28,11 +40,7 @@ class CliTestCase(TestCase):
         randint.side_effect = questions
         prompt.side_effect = answers
         game = EvenGame(3)
-        handler = game_handler(game, 'User')
-        for q in questions:
-            self.assertEqual(f'Question: {q}', next(handler))
-            self.assertEqual('Correct!', next(handler))
-        self.assertEqual('Congratulations, User!', next(handler))
+        self.assert_success(questions, game)
 
     @mock.patch('random.randint')
     @mock.patch('prompt.string')
@@ -40,9 +48,7 @@ class CliTestCase(TestCase):
         randint.return_value = 10
         prompt.return_value = 'no'
         game = EvenGame(3)
-        handler = game_handler(game, 'User')
-        self.assertEqual('Question: 10', next(handler))
-        self.assertEqual('Let\'s try again, User!', next(handler))
+        self.assert_fail(10, game)
 
     @mock.patch('random.randint')
     @mock.patch('random.choice')
@@ -52,11 +58,7 @@ class CliTestCase(TestCase):
         choice.side_effect = ['+', '-', '*']
         prompt.side_effect = ['15', '-5', '50']
         game = CalcGame(3)
-        handler = game_handler(game, 'User')
-        for q in ['10 + 5', '5 - 10', '10 * 5']:
-            self.assertEqual(f'Question: {q}', next(handler))
-            self.assertEqual('Correct!', next(handler))
-        self.assertEqual('Congratulations, User!', next(handler))
+        self.assert_success(['10 + 5', '5 - 10', '10 * 5'], game)
 
     @mock.patch('random.randint')
     @mock.patch('random.choice')
@@ -65,10 +67,21 @@ class CliTestCase(TestCase):
         randint.side_effect = [10, 5]
         choice.return_value = '+'
         prompt.return_value = '50'
-        game = CalcGame(3)
-        handler = game_handler(game, 'User')
-        self.assertEqual('Question: 10 + 5', next(handler))
-        self.assertEqual('Let\'s try again, User!', next(handler))
+        self.assert_fail('10 + 5', CalcGame(3))
+
+    @mock.patch('random.randint')
+    @mock.patch('prompt.string')
+    def test_gcd_game_success(self, prompt, randint):
+        randint.side_effect = [25, 50, 20, 15, 30, 18]
+        prompt.side_effect = ['25', '5', '6']
+        self.assert_success(['25 50', '20 15', '30 18'], GCDGame(3))
+
+    @mock.patch('random.randint')
+    @mock.patch('prompt.string')
+    def test_gcd_game_fail(self, prompt, randint):
+        randint.side_effect = [20, 15]
+        prompt.return_value = '10'
+        self.assert_fail('20 15', GCDGame(3))
 
 
 if __name__ == '__main__':
