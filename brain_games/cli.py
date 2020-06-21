@@ -1,10 +1,6 @@
 import prompt
 
 
-GREETING = 'Welcome to the Brain Games!'
-EVEN_GAME_TRIES = 3
-
-
 def ask_name():
     name = prompt.string('May I have your name? ')
     return name.strip()
