@@ -1,7 +1,5 @@
 import random
 
-import prompt
-
 
 class AnswerKeyError(Exception):
     pass
@@ -30,8 +28,7 @@ class GameHandler:
     def run(self):
         for _ in range(self._tries):
             question = self._gen_question()
-            yield f'Question: {question}'
-            answer = prompt.string('Your answer: ')
+            answer = yield f'Question: {question}'
             try:
                 if not self._handle_answer(question, answer):
                     return self.error_message
@@ -160,11 +157,11 @@ class PrimeGame(GameHandler):
             'yes': True,
             'no': False,
         }
-        n = question // 2
+        n = 2
         is_prime = True
-        while n > 1:
+        while n <= question ** 0.5:
             if question % n == 0:
                 is_prime = False
                 break
-            n -= 1
+            n += 1
         return is_prime == answer_map[answer]
