@@ -5,14 +5,14 @@ import prompt
 
 class GameHandler:
     greeting = None
-    success_message = None
-    error_message = None
+    success_message = 'Congratulations'
+    error_message = 'Let\'s try again'
 
     def __init__(self, tries):
         self._tries = tries
 
     @classmethod
-    def _get_question(cls):
+    def _gen_question(cls):
         raise NotImplementedError
 
     @classmethod
@@ -21,7 +21,7 @@ class GameHandler:
 
     def run(self):
         for _ in range(self._tries):
-            question = self._get_question()
+            question = self._gen_question()
             yield f'Question: {question}'
             answer = prompt.string('Your answer: ')
             if not self._handle_answer(question, answer):
@@ -32,11 +32,9 @@ class GameHandler:
 
 class EvenGame(GameHandler):
     greeting = 'Answer "yes" if number even otherwise answer "no".'
-    success_message = 'Congratulations'
-    error_message = 'Let\'s try again'
 
     @classmethod
-    def _get_question(cls):
+    def _gen_question(cls):
         return random.randint(1, 100)
 
     @classmethod
@@ -45,4 +43,39 @@ class EvenGame(GameHandler):
             'yes': 0,
             'no': 1,
         }
-        return bool(question % 2 == answer_map[answer])
+        return question % 2 == answer_map[answer]
+
+
+class CalcGame(GameHandler):
+    greeting = 'What is the result of the expression?'
+    allowed_operations = ('*', '+', '-')
+
+    @classmethod
+    def _mul(cls, l, r):
+        return l * r
+
+    @classmethod
+    def _add(cls, l, r):
+        return l + r
+
+    @classmethod
+    def _ded(cls, l, r):
+        return l - r
+
+    def _calc_str(self, val):
+        op_map = {
+            '+': '_add',
+            '-': '_ded',
+            '*': '_mul',
+        }
+        left, op, right = val.split()
+        return getattr(self, op_map[op])(int(left), int(right))
+
+    def _gen_question(self):
+        left = str(random.randint(1, 10))
+        right = str(random.randint(1, 10))
+        op = random.choice(self.allowed_operations)
+        return ' '.join([left, op, right])
+
+    def _handle_answer(self, question, answer):
+        return self._calc_str(question) == int(answer)

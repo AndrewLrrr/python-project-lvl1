@@ -1,6 +1,6 @@
 from unittest import TestCase, main, mock
 from brain_games.cli import welcome_user, ask_name, game_handler
-from brain_games.game_handlers import EvenGame
+from brain_games.game_handlers import EvenGame, CalcGame
 
 
 class CliTestCase(TestCase):
@@ -23,23 +23,51 @@ class CliTestCase(TestCase):
     @mock.patch('random.randint')
     @mock.patch('prompt.string')
     def test_even_game_success(self, prompt, randint):
-        prompt.return_value = 'yes'
-        randint.return_value = 10
+        questions = [10, 7, 2]
+        answers = ['yes', 'no', 'yes']
+        randint.side_effect = questions
+        prompt.side_effect = answers
         game = EvenGame(3)
         handler = game_handler(game, 'User')
-        for _ in range(3):
-            self.assertEqual('Question: 10', next(handler))
+        for q in questions:
+            self.assertEqual(f'Question: {q}', next(handler))
             self.assertEqual('Correct!', next(handler))
         self.assertEqual('Congratulations, User!', next(handler))
 
     @mock.patch('random.randint')
     @mock.patch('prompt.string')
     def test_even_game_fail(self, prompt, randint):
-        prompt.return_value = 'no'
         randint.return_value = 10
+        prompt.return_value = 'no'
         game = EvenGame(3)
         handler = game_handler(game, 'User')
         self.assertEqual('Question: 10', next(handler))
+        self.assertEqual('Let\'s try again, User!', next(handler))
+
+    @mock.patch('random.randint')
+    @mock.patch('random.choice')
+    @mock.patch('prompt.string')
+    def test_calc_game_success(self, prompt, choice, randint):
+        randint.side_effect = [10, 5, 5, 10, 10, 5]
+        choice.side_effect = ['+', '-', '*']
+        prompt.side_effect = ['15', '-5', '50']
+        game = CalcGame(3)
+        handler = game_handler(game, 'User')
+        for q in ['10 + 5', '5 - 10', '10 * 5']:
+            self.assertEqual(f'Question: {q}', next(handler))
+            self.assertEqual('Correct!', next(handler))
+        self.assertEqual('Congratulations, User!', next(handler))
+
+    @mock.patch('random.randint')
+    @mock.patch('random.choice')
+    @mock.patch('prompt.string')
+    def test_calc_game_fail(self, prompt, choice, randint):
+        randint.side_effect = [10, 5]
+        choice.return_value = '+'
+        prompt.return_value = '50'
+        game = CalcGame(3)
+        handler = game_handler(game, 'User')
+        self.assertEqual(f'Question: 10 + 5', next(handler))
         self.assertEqual('Let\'s try again, User!', next(handler))
 
 

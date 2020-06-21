@@ -17,3 +17,7 @@ poetry run brain-games
 ```
 poetry run brain-even
 ```
+### Игра: "Калькулятор"
+```
+poetry run brain-calc
+```
