@@ -6,7 +6,7 @@ from brain_games.game_handlers import (
     ProgressionGame,
     AnswerKeyError,
     AnswerValueError,
-)
+    PrimeGame)
 
 GREETING = 'Welcome to the Brain Games!'
 QUESTIONS_COUNT = 3
@@ -49,6 +49,10 @@ def brain_gcd():
 
 def brain_progression():
     game_launcher(ProgressionGame(QUESTIONS_COUNT))
+
+
+def brain_prime():
+    game_launcher(PrimeGame(QUESTIONS_COUNT))
 
 
 if __name__ == '__main__':

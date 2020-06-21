@@ -147,3 +147,24 @@ class ProgressionGame(GameHandler):
         for _ in range(self._skip_index):
             num += self._step
         return num == int(answer)
+
+
+class PrimeGame(GameHandler):
+    greeting = 'Answer "yes" if given number is prime. Otherwise answer "no".'
+
+    def _gen_question(self):
+        return random.randint(1, 150)
+
+    def _handle_answer(self, question, answer):
+        answer_map = {
+            'yes': True,
+            'no': False,
+        }
+        n = question // 2
+        is_prime = True
+        while n > 1:
+            if question % n == 0:
+                is_prime = False
+                break
+            n -= 1
+        return is_prime == answer_map[answer]

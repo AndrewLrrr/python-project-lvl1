@@ -5,6 +5,7 @@ from brain_games.game_handlers import (
     CalcGame,
     GCDGame,
     ProgressionGame,
+    PrimeGame,
 )
 
 
@@ -101,6 +102,21 @@ class CliTestCase(TestCase):
         randint.side_effect = [5, 2, 5]
         prompt.return_value = '16'
         self.assert_fail('5 7 9 11 13 .. 17 19 21 23', ProgressionGame(1))
+
+    @mock.patch('random.randint')
+    @mock.patch('prompt.string')
+    def test_prime_game_success(self, prompt, randint):
+        questions = [7, 8, 11]
+        randint.side_effect = questions
+        prompt.side_effect = ['yes', 'no', 'yes']
+        self.assert_success(questions, PrimeGame(3))
+
+    @mock.patch('random.randint')
+    @mock.patch('prompt.string')
+    def test_prime_game_fail(self, prompt, randint):
+        randint.return_value = 5
+        prompt.return_value = 'no'
+        self.assert_fail(5, PrimeGame(3))
 
 
 if __name__ == '__main__':

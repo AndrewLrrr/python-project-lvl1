@@ -8,7 +8,37 @@
 poetry install
 ```
 
-## Запуск:
+## Тесты:
+```
+make test
+```
+
+## Кодстайл:
+```
+make lint
+```
+
+## Установка репозитория:
+```
+poetry config repositories.avatara_brain_games https://test.pypi.org/legacy/
+```
+
+## Установка доступа к репозиторию:
+```
+poetry config http-basic.avatara_brain_games {login} {password}
+```
+
+## Сборка пакета:
+```
+make build
+```
+
+## Публикация пакета:
+```
+make publish
+```
+
+## Запуск игр:
 ### Приветствие
 ```
 poetry run brain-games
@@ -28,4 +58,8 @@ poetry run brain-gcd
 ### Игра "Арифметическая прогрессия"
 ```
 poetry run brain-progression
+```
+### Игра "Простое ли число?"
+```
+poetry run brain-prime
 ```
