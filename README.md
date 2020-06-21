@@ -3,63 +3,81 @@
 [![Build Status](https://travis-ci.org/AndrewLrrr/python-project-lvl1.svg?branch=master)](https://travis-ci.org/AndrewLrrr/python-project-lvl1)
 <a href="https://codeclimate.com/github/AndrewLrrr/python-project-lvl1/maintainability"><img src="https://api.codeclimate.com/v1/badges/b67e88538d7386ddddaa/maintainability" /></a>
 
-## Установка пакета:
+## Работа с проектом:
+### Установка зависимостей:
 ```
 poetry install
 ```
-
-## Тесты:
+---
+### Тесты:
 ```
 make test
 ```
-
-## Кодстайл:
+---
+### Кодстайл:
 ```
 make lint
 ```
 
-## Установка репозитория:
+## Сборка и публикация пакета:
+### Установка репозитория:
 ```
 poetry config repositories.avatara_brain_games https://test.pypi.org/legacy/
 ```
-
-## Установка доступа к репозиторию:
+---
+### Установка доступа к репозиторию:
 ```
 poetry config http-basic.avatara_brain_games {login} {password}
 ```
-
-## Сборка пакета:
+---
+### Сборка пакета:
 ```
 make build
 ```
-
-## Публикация пакета:
+---
+### Публикация пакета:
 ```
 make publish
+```
+
+## Загрузка опубликованного пакета:
+```
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple avatara_brain_games
 ```
 
 ## Запуск игр:
 ### Приветствие
 ```
-poetry run brain-games
+brain-games
 ```
+<a href="https://asciinema.org/a/rxvWkoD0z9seFHrz9NrVJ1OLA" target="_blank"><img src="https://asciinema.org/a/rxvWkoD0z9seFHrz9NrVJ1OLA.svg" /></a>
+---
 ### Игра: "Проверка на четность"
 ```
-poetry run brain-even
+brain-even
 ```
+<a href="https://asciinema.org/a/56tLzftWiBPWRcrcBHJlcdQAN" target="_blank"><img src="https://asciinema.org/a/56tLzftWiBPWRcrcBHJlcdQAN.svg" /></a>
+---
 ### Игра: "Калькулятор"
 ```
-poetry run brain-calc
+brain-calc
 ```
+<a href="https://asciinema.org/a/ZNBvDRv6EvzHMVYCMMso6RwDk" target="_blank"><img src="https://asciinema.org/a/ZNBvDRv6EvzHMVYCMMso6RwDk.svg" /></a>
+---
 ### Игра "НОД"
 ```
-poetry run brain-gcd
+brain-gcd
 ```
+<a href="https://asciinema.org/a/sZHb3R4JwgiFMyGG1EeWSwyXq" target="_blank"><img src="https://asciinema.org/a/sZHb3R4JwgiFMyGG1EeWSwyXq.svg" /></a>
+---
 ### Игра "Арифметическая прогрессия"
 ```
-poetry run brain-progression
+brain-progression
 ```
+<a href="https://asciinema.org/a/NWZz565AU5dbnRIhFY87ctDvL" target="_blank"><img src="https://asciinema.org/a/NWZz565AU5dbnRIhFY87ctDvL.svg" /></a>
+---
 ### Игра "Простое ли число?"
 ```
-poetry run brain-prime
+brain-prime
 ```
+<a href="https://asciinema.org/a/Xk9INmuZua0gyrXZTaI7xjhax" target="_blank"><img src="https://asciinema.org/a/Xk9INmuZua0gyrXZTaI7xjhax.svg" /></a>
