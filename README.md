@@ -8,7 +8,12 @@
 poetry install
 ```
 
-### Запуск:
+## Запуск:
+### Приветствие
 ```
 poetry run brain-games
-``` 
+```
+### Игра: "Проверка на четность"
+```
+poetry run brain-even
+```
