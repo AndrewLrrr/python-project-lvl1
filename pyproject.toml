@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "avatara_brain_games"
-version = "0.2.0"
+version = "0.3.0"
 description = ""
 authors = ["Andrey <larin.projects@gmail.com>"]
 packages = [
