@@ -1,5 +1,5 @@
 from brain_games.cli import welcome_user, ask_name, game_handler
-from brain_games.game_handlers import CalcGame, EvenGame, GCDGame
+from brain_games.game_handlers import CalcGame, EvenGame, GCDGame, ProgressionGame, AnswerKeyError, AnswerValueError
 
 GREETING = 'Welcome to the Brain Games!'
 QUESTIONS_COUNT = 3
@@ -19,29 +19,29 @@ def game_launcher(game):
     name = ask_name()
     print(welcome_user(name))
     print()
-    for q in game_handler(game, name):
-        print(q)
+    try:
+        for q in game_handler(game, name):
+            print(q)
+    except AnswerKeyError:
+        print('Error! You can only use `yes` or `no` for your answers')
+    except AnswerValueError:
+        print('Error! You can use only integers for your answers')
 
 
 def brain_even():
-    try:
-        game_launcher(EvenGame(QUESTIONS_COUNT))
-    except ValueError:
-        print('Error! You can use only integers for your answers')
+    game_launcher(EvenGame(QUESTIONS_COUNT))
 
 
 def brain_calc():
-    try:
-        game_launcher(CalcGame(QUESTIONS_COUNT))
-    except ValueError:
-        print('Error! You can use only integers for your answers')
+    game_launcher(CalcGame(QUESTIONS_COUNT))
 
 
 def brain_gcd():
-    try:
-        game_launcher(GCDGame(QUESTIONS_COUNT))
-    except ValueError:
-        print('Error! You can use only integers for your answers')
+    game_launcher(GCDGame(QUESTIONS_COUNT))
+
+
+def brain_progression():
+    game_launcher(ProgressionGame(QUESTIONS_COUNT))
 
 
 if __name__ == '__main__':

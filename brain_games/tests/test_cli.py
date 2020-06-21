@@ -1,6 +1,6 @@
 from unittest import TestCase, main, mock
 from brain_games.cli import welcome_user, ask_name, game_handler
-from brain_games.game_handlers import EvenGame, CalcGame, GCDGame
+from brain_games.game_handlers import EvenGame, CalcGame, GCDGame, ProgressionGame
 
 
 class CliTestCase(TestCase):
@@ -82,6 +82,20 @@ class CliTestCase(TestCase):
         randint.side_effect = [20, 15]
         prompt.return_value = '10'
         self.assert_fail('20 15', GCDGame(3))
+
+    @mock.patch('random.randint')
+    @mock.patch('prompt.string')
+    def test_progression_game_success(self, prompt, randint):
+        randint.side_effect = [5, 2, 5]
+        prompt.return_value = '15'
+        self.assert_success(['5 7 9 11 13 .. 17 19 21 23'], ProgressionGame(1))
+
+    @mock.patch('random.randint')
+    @mock.patch('prompt.string')
+    def test_progression_game_fail(self, prompt, randint):
+        randint.side_effect = [5, 2, 5]
+        prompt.return_value = '16'
+        self.assert_fail('5 7 9 11 13 .. 17 19 21 23', ProgressionGame(1))
 
 
 if __name__ == '__main__':

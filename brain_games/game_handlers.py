@@ -3,6 +3,14 @@ import random
 import prompt
 
 
+class AnswerKeyError(Exception):
+    pass
+
+
+class AnswerValueError(Exception):
+    pass
+
+
 class GameHandler:
     greeting = None
     success_message = 'Congratulations'
@@ -24,8 +32,13 @@ class GameHandler:
             question = self._gen_question()
             yield f'Question: {question}'
             answer = prompt.string('Your answer: ')
-            if not self._handle_answer(question, answer):
-                return self.error_message
+            try:
+                if not self._handle_answer(question, answer):
+                    return self.error_message
+            except KeyError:
+                raise AnswerKeyError
+            except ValueError:
+                raise AnswerValueError
             yield 'Correct!'
         return self.success_message
 
@@ -102,3 +115,35 @@ class GCDGame(GameHandler):
             return gcb(a % b, b) if a > b else gcb(a, b % a)
 
         return gcb(x, y) == int(answer)
+
+
+class ProgressionGame(GameHandler):
+    greeting = 'What number is missing in the progression?'
+    progression_length = 10
+    skip_item = '..'
+
+    def __init__(self, tries):
+        super().__init__(tries)
+        self._num = None
+        self._step = None
+        self._skip_index = None
+
+    def _gen_question(self):
+        self._num = random.randint(1, 100)
+        self._step = random.randint(2, 100)
+        self._skip_index = random.randint(0, 9)
+        num = self._num
+        progression = []
+        for i in range(self.progression_length):
+            if i == self._skip_index:
+                progression.append(self.skip_item)
+            else:
+                progression.append(str(num))
+            num += self._step
+        return ' '.join(progression)
+
+    def _handle_answer(self, question, answer):
+        num = self._num
+        for _ in range(self._skip_index):
+            num += self._step
+        return num == int(answer)
